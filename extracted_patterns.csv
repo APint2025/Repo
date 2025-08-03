@@ -1,0 +1,37 @@
+Type,Value
+emails,john.smith@company.com
+emails,sarah.davis@company.com
+emails,mike.wilson@company.com
+phones,"('', '(555) ')"
+phones,"('', '(555) ')"
+phones,"('', '(555) ')"
+dates,12/15/2023
+dates,01/30/2024
+dates,11/20/2023
+numbers,555
+numbers,111
+numbers,2222
+numbers,12
+numbers,15
+numbers,2023
+numbers,25
+numbers,000
+numbers,555
+numbers,333
+numbers,4444
+numbers,01
+numbers,30
+numbers,2024
+numbers,18
+numbers,500
+numbers,555
+numbers,555
+numbers,6666
+numbers,11
+numbers,20
+numbers,2023
+numbers,32
+numbers,750
+currency,$25
+currency,$18
+currency,$32
