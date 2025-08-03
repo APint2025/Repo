@@ -1,0 +1,8 @@
+This is line 1 of the sample file.
+This is line 2 with some text.
+Line 3 contains more content here.
+
+Line 5 has an empty line above it.
+The sixth line is this one.
+Line number seven follows.
+This is the eighth and final line.
