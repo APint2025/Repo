@@ -15,24 +15,39 @@ def count_lines(filename):
         filename (str): Path to the text file
         
     Returns:
-        int: Number of lines in the file
+        tuple: (number of lines, list of unparseable lines info) or (None, None) on error
     """
     try:
-        with open(filename, 'r', encoding='utf-8') as file:
+        with open(filename, 'rb') as file:  # Open in binary mode first
             lines = file.readlines()
-            return len(lines)
+            
+        parsed_lines = 0
+        unparseable_lines = []
+        
+        for line_num, line_bytes in enumerate(lines, 1):
+            try:
+                # Try to decode each line
+                line_text = line_bytes.decode('utf-8')
+                parsed_lines += 1
+            except UnicodeDecodeError as e:
+                # Record unparseable line information
+                unparseable_lines.append({
+                    'line_number': line_num,
+                    'raw_bytes': line_bytes[:50],  # First 50 bytes for display
+                    'error': str(e)
+                })
+        
+        return parsed_lines + len(unparseable_lines), unparseable_lines
+        
     except FileNotFoundError:
         print(f"Error: File '{filename}' not found.")
-        return None
+        return None, None
     except PermissionError:
         print(f"Error: Permission denied to read file '{filename}'.")
-        return None
-    except UnicodeDecodeError:
-        print(f"Error: Unable to decode file '{filename}' as UTF-8.")
-        return None
+        return None, None
     except Exception as e:
         print(f"Error: An unexpected error occurred: {e}")
-        return None
+        return None, None
 
 
 def main():
@@ -50,10 +65,22 @@ def main():
         sys.exit(1)
     
     # Count lines
-    line_count = count_lines(filename)
+    line_count, unparseable_lines = count_lines(filename)
     
     if line_count is not None:
         print(f"Number of lines in '{filename}': {line_count}")
+        
+        # Print information about unparseable lines
+        if unparseable_lines:
+            print(f"\nFound {len(unparseable_lines)} line(s) that could not be parsed:")
+            print("-" * 60)
+            for line_info in unparseable_lines:
+                print(f"Line {line_info['line_number']}:")
+                print(f"  Raw bytes (first 50): {line_info['raw_bytes']}")
+                print(f"  Error: {line_info['error']}")
+                print()
+        else:
+            print("All lines were successfully parsed.")
     else:
         sys.exit(1)
 
